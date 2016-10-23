@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Skills-Javascript</title>
+  <script src="https://code.jquery.com/jquery.js"></script>
   <style>
     body {
       counter-reset: h3counter;
@@ -239,6 +240,11 @@
 <script>
   "use strict";
   // code here for above problem
+  $('.tricky-to-find').on('click', function(){
+
+    alert('Pop-up Please!');
+
+  });
 </script>
 
 <div class="hint">
@@ -267,6 +273,9 @@
 <script>
   "use strict";
   // put your code here
+  $('#kittenz-rule').on('dblclick', function(){
+    $('#kittenz-rule').attr('src', 'http://d21vu35cjx7sd4.cloudfront.net/dims3/MMAH/crop/0x0%2B0%2B0/resize/645x380/quality/90/?url=http%3A%2F%2Fs3.amazonaws.com%2Fassets.prod.vetstreet.com%2Fa5%2F187ce0a8b411e0a0d50050568d634f%2Ffile%2Fgoldendoodle-3-645mk070111.jpg');
+  });
 </script>
 
 <div class="hint">
@@ -301,6 +310,11 @@
 <script>
   "use strict";
   // put your code here
+  $('#make-a-porcupine').on('click', function(){
+    setTimeout(function(){
+      $('#cute-porcupine-image').fadeIn(2000).attr('style','display: block');
+    }, 1000);
+  });
 </script>
 
 <div class="hint">
@@ -345,6 +359,14 @@
 <script>
   "use strict";
   // put your code here
+  function showFavoriteFood(evt) {
+    evt.preventDefault();
+    var favoriteFood = $('#favorite-food-input').val();
+    $('#agreeable-text').html('I like ' + favoriteFood + ', too!');
+
+  }
+
+  $('#agreeable-form').on('submit', showFavoriteFood);
 </script>
 
 <div class="hint">
@@ -375,6 +397,28 @@
 <script>
   "use strict";
   // put your code here
+  var playing = false;
+
+  $('#play-guessing-game').on('click', function(){
+    playing = true;
+    var targetNumber = Math.floor(Math.random()*100) + 1;
+    console.log(targetNumber);
+    while(playing){
+      var userAnswer = parseInt(prompt('Choose a number between 1 and 100'));
+
+      if (userAnswer === targetNumber){
+        alert('Congrats! You win!');
+        playing = false;
+      }
+      else if (userAnswer < targetNumber){
+        alert('Your guess is too low!');
+      }
+      else{
+        alert('Your guess is too high!')
+      }
+
+    }
+  });
 </script>
 
 <div class="hint">
@@ -416,6 +460,46 @@
 <script>
   "use strict";
   // put your code here
+  //disable play button enable guessing form and button
+  var computerAnswer;
+
+  $('#play-guessing-game-2').on('click', function(){
+    computerAnswer = Math.floor(Math.random()*100) + 1;
+    $('#play-guessing-game-2').prop('disabled', true);
+    $('#number-guessed').prop('disabled', false);
+    $('#try-this-number').prop('disabled', false);
+  });
+  
+  //define a function that is for playing the game
+  function playGuessingGame(evt){
+    evt.preventDefault();
+
+    console.log(computerAnswer);
+    var userGuess = parseInt($('#number-guessed').val());
+
+    if (userGuess === computerAnswer){
+        $('#number-guessing-msg').html('You win!');
+        $('#play-guessing-game-2').prop('disabled', false);
+        $('#number-guessed').prop('disabled', true);
+        $('#try-this-number').prop('disabled', true);
+
+        setTimeout(function(){
+          $('#number-guessing-msg').html('');
+          $('#number-guessed').val('');
+        }, 1000);
+
+      }
+      else if (userGuess < computerAnswer){
+        $('#number-guessing-msg').html('Too low!');
+      }
+      else{
+        $('#number-guessing-msg').html('Too high!');
+      }
+  }
+
+  //function that handles submission
+  $('#guessing-game-2-form').on('submit', playGuessingGame);
+
 </script>
 
 
@@ -448,7 +532,42 @@
 
     var PRIME_COLORS = ['orange', 'midnightblue', 'darkgoldenrod', 'green', 'purple'];
 
+  //find first five prime numbers and store as list
+  var PRIME_NUMBERS = [];
+
+  PRIME_NUMBERS.push(2);
+  var numToCheck = 3;
+  while(PRIME_NUMBERS.length < 5){
+
+    var isPrime = true;
+    var primeChecker = 2;
+
+    while(primeChecker < numToCheck && isPrime){
+      if(numToCheck % primeChecker === 0){
+        isPrime = false;
+      }
+      primeChecker++;
+    }
+
+    if(isPrime){
+      PRIME_NUMBERS.push(numToCheck);
+    }
+    numToCheck++;
+  }
+
   // put the rest of your code here
+  //make 5 prime boxes
+  function makePrimeBoxes(){
+
+    for (var i = 0; i < PRIME_COLORS.length; i++){
+      var divToAppend = '<div class="prime-box" style="background-color: '+ PRIME_COLORS[i] +
+      '">' + PRIME_NUMBERS[i] + '</div>';
+      $('#prime-box-area').append(divToAppend);
+    }
+  }
+
+  //exectue function on the click of the button
+  $('#make-prime-boxes').on('click', makePrimeBoxes);
 </script>
 
 
@@ -488,6 +607,6 @@
 </script>
 
 
-<script src="js-skills.js"></script>
+
 </body>
 </html>
